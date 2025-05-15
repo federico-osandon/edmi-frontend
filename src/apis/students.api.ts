@@ -12,8 +12,9 @@ interface Student {
     _id?: string;
 }
 
-export const getStudentsApi = async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users?role=estudiantes`)
+export const getStudentsApi = async ( activity: string | undefined) => {
+    
+    const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users${activity ? `?activity=${activity}` : ''}`)
     return response.json()
 }
 

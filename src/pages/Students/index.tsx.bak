@@ -73,22 +73,6 @@ export function Students() {
                     <h3 className="mb-4 font-semibold text-gray-800 text-theme-xl dark:text-white/90 sm:text-2xl">
                         Listado de Estudiantes
                     </h3>
-                    <div className="w-1/4">
-                        <Select
-                            placeholder="Seleccionar actividad"
-                            options={[
-                                { value: 'SERVIDOR', label: 'Servidor' },
-                                { value: 'PASTOR', label: 'Pastor' },
-                            ]}
-                            onChange={handleSelectChange}
-                            
-                        />  
-                    </div>
-                    <ButtonCustom path="crear-alumno">
-                        Crear Estudiante
-                    </ButtonCustom>
-                </div>
-                {/* <ComponentCard 
                     title="Lista de Estudiantes" 
                     desc="Información detallada de todos los estudiantes registrados"
                 > */}
