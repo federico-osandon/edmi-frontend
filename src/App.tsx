@@ -1,5 +1,5 @@
 import { HashRouter as Router, Routes, Route } from "react-router";
-import SignIn from "./pages/AuthPages/SignIn";
+// import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
 
@@ -17,30 +17,30 @@ import { StudentFormRegisterPage } from "./pages/Students/StudentFormRegister/St
 
 
 export default function App() {
-  return (
-    <>
-    <ToastContainer position="bottom-right" autoClose={3000} />
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          {/* Dashboard Layout */}
-          <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
-            <Route path="/alumnos" element={<Students />} />      
-            <Route path="/crear-alumno" element={<StudentCreate />} />      
+    return (
+        <>
+            <ToastContainer position="bottom-right" autoClose={3000} />
+            <Router>
+                <ScrollToTop />
+                <Routes>
+                    {/* Dashboard Layout */}
+                    <Route element={<AppLayout />}>
+                        <Route index path="/" element={<Home />} />
+                        <Route path="/alumnos" element={<Students />} />      
+                        <Route path="/crear-alumno" element={<StudentCreate />} />      
 
-            
+                        
 
-          </Route>
+                    </Route>
 
-          {/* Auth Layout */}
-          <Route path="/registrar-estudiante" element={<StudentFormRegisterPage />} />
-          <Route path="/signup" element={<SignUp />} />
+                    {/* Auth Layout */}
+                    <Route path="/registrar-estudiante" element={<StudentFormRegisterPage />} />
+                    {/* <Route path="/signup" element={<SignUp />} /> */}
 
-          {/* Fallback Route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
-    </>
-  );
+                    {/* Fallback Route */}
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </Router>
+        </>
+    );
 }

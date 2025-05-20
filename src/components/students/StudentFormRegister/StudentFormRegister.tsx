@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { EyeCloseIcon, EyeIcon } from "../../../icons";
+// import { EyeCloseIcon, EyeIcon } from "../../../icons";
 import Label from "../../form/Label";
 import Input from "../../form/input/InputField";
 import Checkbox from "../../form/input/Checkbox";
 import Select from "../../form/Select";
 import { toast } from "react-toastify";
 import { createUserApi } from "../../../apis/auth.api";
+import { StudentType } from "../../../types/User.type";
+
+
 
 export default function StudentFormRegister() {
-    const [showPassword, setShowPassword] = useState(false);
+    // const [showPassword, setShowPassword] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
-    const handleOnSubmit = (data: any) => {
+    const handleOnSubmit = (data: StudentType) => {
         const fetchCreateUserAPi = async () => {
             try {
-                const response = await createUserApi(data)
+                const response = await createUserApi({...data, password: "12345678", role: "STUDENT" });
                 if (response.status === 'success') {
                     toast.success(response.message || 'Usuario creado con éxito')
                     reset()
