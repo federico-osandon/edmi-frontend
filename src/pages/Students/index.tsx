@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import Badge from "../../components/ui/badge/Badge";
-import { ButtonCustom } from "../../components";
+// import { ButtonCustom } from "../../components";
 import Select from "../../components/form/Select";
 
 interface Student {
@@ -69,11 +69,11 @@ export function Students() {
             />
             <PageBreadcrumb prevTitle="Inicio" pageTitle="Estudiantes" />
             <div className="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
-                <div className="flex flex-row justify-between items-center mb-5 w-full w-full">
+                <div className="flex flex-col lg:flex-row justify-between items-center mb-5 w-full w-full">
                     <h3 className="mb-4 font-semibold text-gray-800 text-theme-xl dark:text-white/90 sm:text-2xl">
                         Listado de Estudiantes
                     </h3>
-                    <div className="w-1/4">
+                    <div className="w-full lg:w-1/4">
                         <Select
                             placeholder="Seleccionar actividad"
                             options={[
@@ -84,9 +84,9 @@ export function Students() {
                             
                         />  
                     </div>
-                    <ButtonCustom path="crear-alumno">
+                    {/* <ButtonCustom path="crear-alumno">
                         Crear Estudiante
-                    </ButtonCustom>
+                    </ButtonCustom> */}
                 </div>
                 {/* <ComponentCard 
                     title="Lista de Estudiantes" 
