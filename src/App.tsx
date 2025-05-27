@@ -14,9 +14,18 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { StudentFormRegisterPage } from "./pages/Students/StudentFormRegister/StudentFormRegister";
+import { useEffect } from "react";
+import { useAuthStore } from "./store/auth";
 
 
 export default function App() {
+
+    const { checkAuthStatus } = useAuthStore();
+
+    useEffect(() => {
+        checkAuthStatus();
+      }, []);
+      
     return (
         <>
             <ToastContainer position="bottom-right" autoClose={3000} />
