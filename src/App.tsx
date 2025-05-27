@@ -1,6 +1,6 @@
 import { HashRouter as Router, Routes, Route } from "react-router";
 // import SignIn from "./pages/AuthPages/SignIn";
-import SignUp from "./pages/AuthPages/SignUp";
+// import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
 
 import AppLayout from "./layout/AppLayout";
