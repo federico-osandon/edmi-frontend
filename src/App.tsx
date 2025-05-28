@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import { StudentFormRegisterPage } from "./pages/Students/StudentFormRegister/StudentFormRegister";
 import { useEffect } from "react";
 import { useAuthStore } from "./store/auth";
+import SignIn from "./pages/AuthPages/SignIn";
 
 
 export default function App() {
@@ -24,7 +25,7 @@ export default function App() {
 
     useEffect(() => {
         checkAuthStatus();
-      }, []);
+    }, []);
       
     return (
         <>
@@ -35,17 +36,13 @@ export default function App() {
                     {/* Dashboard Layout */}
                     <Route element={<AppLayout />}>
                         <Route index path="/" element={<Home />} />
-                        <Route path="/alumnos" element={<Students />} />      
-                        <Route path="/crear-alumno" element={<StudentCreate />} />      
-
-                        
-
+                        <Route path="/estudiantes" element={<Students />} />      
+                        <Route path="/crear-estudiante" element={<StudentCreate />} />      
                     </Route>
-
                     {/* Auth Layout */}
-                    <Route path="/registrar-estudiante" element={<StudentFormRegisterPage />} />
-                    {/* <Route path="/signup" element={<SignUp />} /> */}
-
+                    {/* <Route path="/registrar-estudiante" element={<StudentFormRegisterPage />} /> */}
+                    <Route path="/signup" element={<StudentFormRegisterPage />} />
+                    <Route path="/signin" element={<SignIn />} />
                     {/* Fallback Route */}
                     <Route path="*" element={<NotFound />} />
                 </Routes>
@@ -53,3 +50,5 @@ export default function App() {
         </>
     );
 }
+// isActive, 
+// isConfirmed,

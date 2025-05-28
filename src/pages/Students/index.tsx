@@ -13,23 +13,14 @@ import {
 import Badge from "../../components/ui/badge/Badge";
 // import { ButtonCustom } from "../../components";
 import Select from "../../components/form/Select";
+import { Student } from "../../types";
 
-interface Student {
-    _id: string;
-    first_name: string;
-    last_name?: string;
-    email?: string;
-    is_active?: boolean;
-    role?: string;
-    enrollment?: boolean;
-    activity?: string;
-    is_beca?: boolean;
-}
 
 export function Students() {
     const [students, setStudents] = useState<Student[]>([]);
     const [reRender, setReRender] = useState(false);
     const [activity, setActivity] = useState('');
+    // const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
