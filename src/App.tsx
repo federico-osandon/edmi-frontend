@@ -17,6 +17,7 @@ import { useAuthStore } from "./store/auth";
 // Componente para redirigir usuarios autenticados lejos de las páginas de autenticación
 const AuthRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+//   console.log(isAuthenticated);
   return isAuthenticated ? <Navigate to="/" replace /> : <>{children}</>;
 };
 

@@ -38,7 +38,7 @@ const API_URL = "http://localhost:3001/api";
 
 export const useAuthStore = create<AuthState>()(persist(
     (set) => ({
-        isAuthenticated: true,
+        isAuthenticated: false,
         user: null,
         isLoading: false,
         error: null,

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router";
 // import { EyeCloseIcon, EyeIcon } from "../../../icons";
 import Label from "../../form/Label";
 import Input from "../../form/input/InputField";
@@ -10,11 +11,11 @@ import { createUserApi } from "../../../apis/auth.api";
 import { StudentType } from "../../../types/User.type";
 
 
-
 export default function StudentFormRegister() {
     // const [showPassword, setShowPassword] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
+    const navigate = useNavigate();
 
     const handleOnSubmit = (data: StudentType) => {
         const fetchCreateUserAPi = async () => {
@@ -23,6 +24,7 @@ export default function StudentFormRegister() {
                 if (response.status === 'success') {
                     toast.success(response.message || 'Usuario creado con éxito')
                     reset()
+                    navigate('/signin')
                 } else {
                     toast.error(response.error || 'Error al crear usuario')
                 }
