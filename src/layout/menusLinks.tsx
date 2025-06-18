@@ -17,8 +17,8 @@ export const navItems: NavItem[] = [
     // },
     {
       icon: <UserIcon />,
-      name: "Alumnos",
-      path: "/alumnos",
+      name: "Estudiantes",
+      path: "/estudiantes",
     },
     // {
     //   icon: <UserCircleIcon />,
