@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
 import NotFound from "./pages/OtherPage/NotFound";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
@@ -14,6 +14,12 @@ import SignIn from "./pages/AuthPages/SignIn";
 import { ProtectedRoute } from "./components/ProtectedRoutes";
 import { useAuthStore } from "./store/auth";
 
+// Componente para redirigir usuarios autenticados lejos de las páginas de autenticación
+const AuthRoute = ({ children }: { children: React.ReactNode }) => {
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  return isAuthenticated ? <Navigate to="/" replace /> : <>{children}</>;
+};
+
 export default function App() {
     const isAuthenticated = useAuthStore(state => state.isAuthenticated);
     
@@ -24,9 +30,17 @@ export default function App() {
             <Router>
                 <ScrollToTop />
                 <Routes>
-                    {/* Rutas públicas */}
-                    <Route path="/signup" element={<StudentFormRegisterPage />} />
-                    <Route path="/signin" element={<SignIn />} />
+                    {/* Rutas públicas con redirección si ya está autenticado */}
+                    <Route path="/signup" element={
+                        <AuthRoute>
+                            <StudentFormRegisterPage />
+                        </AuthRoute>
+                    } />
+                    <Route path="/signin" element={
+                        <AuthRoute>
+                            <SignIn />
+                        </AuthRoute>
+                    } />
                     
                     {/* Rutas protegidas - Dashboard Layout */}
                     <Route element={<ProtectedRoute isAllowed={isAuthenticated} />}>
