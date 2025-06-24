@@ -1,6 +1,22 @@
 import type React from "react";
 import type { FC } from "react";
 
+// interface InputProps {
+//   type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
+//   id?: string;
+//   name?: string;
+//   placeholder?: string;
+//   value?: string | number;
+//   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+//   className?: string;
+//   min?: string;
+//   max?: string;
+//   step?: number;
+//   disabled?: boolean;
+//   success?: boolean;
+//   error?: boolean;
+//   hint?: string;
+// }
 interface InputProps {
   type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
   id?: string;
@@ -9,15 +25,21 @@ interface InputProps {
   value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
-  min?: string;
-  max?: string;
+  min?: string | number;  // Modificado para aceptar number también
+  max?: string | number;  // Modificado para aceptar number también
   step?: number;
   disabled?: boolean;
   success?: boolean;
-  error?: boolean;
+  error?: boolean | string | Record<string, any> | any;  // Modificado para aceptar mensajes de error como string
   hint?: string;
+  
+  // Props específicas de React Hook Form
+  ref?: React.Ref<HTMLInputElement>;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  
+  // Esta es la clave: permitir cualquier otra prop que pueda venir de React Hook Form
+  [key: string]: any;
 }
-
 const Input: FC<InputProps> = ({
   type = "text",
   id,

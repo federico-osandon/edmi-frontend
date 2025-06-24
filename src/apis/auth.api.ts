@@ -13,3 +13,15 @@ export const createUserApi = async (user: User) => {
     })
     return response.json()
 }
+
+export const postLoginApi = async (data: User) => {
+    const response = await fetch(`${backendUrl}/api/sessions/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    return response.json()
+}
+

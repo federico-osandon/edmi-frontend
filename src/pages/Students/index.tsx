@@ -20,13 +20,31 @@ export function Students() {
     const [students, setStudents] = useState<Student[]>([]);
     const [reRender, setReRender] = useState(false);
     const [activity, setActivity] = useState('');
-    // const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
 
     useEffect(() => {
-        const fetchStudents = async ( activity?: string) => {
-            const students = await getStudentsApi(activity);
-            setStudents(students.data);
+        const fetchStudents = async (activity?: string) => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await getStudentsApi(activity);
+                // Verificar si la respuesta tiene la estructura esperada
+                if (response && response.data && Array.isArray(response.data)) {
+                    setStudents(response.data);
+                } else {
+                    console.error('La respuesta de la API no tiene el formato esperado:', response);
+                    setStudents([]);
+                    setError('No hay estudiantes disponibles');
+                }
+            } catch (error) {
+                console.error('Error al obtener estudiantes:', error);
+                setStudents([]);
+                setError('Error al cargar los estudiantes');
+            } finally {
+                setLoading(false);
+            }
         };
         fetchStudents(activity);
     }, [reRender, activity]);
@@ -84,7 +102,15 @@ export function Students() {
                     desc="Información detallada de todos los estudiantes registrados"
                 > */}
                     {
-                        students.length > 0 ? (
+                        loading ? (
+                            <div className="flex justify-center items-center py-10">
+                                <p className="text-gray-500 dark:text-gray-400">Cargando estudiantes...</p>
+                            </div>
+                        ) : error ? (
+                            <div className="flex justify-center items-center py-10">
+                                <p className="text-red-500 dark:text-red-400">{error}</p>
+                            </div>
+                        ) : Array.isArray(students) && students.length > 0 ? (
                             <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
                                 <div className="max-w-full overflow-x-auto">
                                             <Table>
@@ -126,7 +152,7 @@ export function Students() {
 
                                                 {/* Table Body */}
                                                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                                                    {students.map((student) => (
+                                                    {Array.isArray(students) && students.map((student) => (
                                                         <TableRow key={student._id} className="hover:bg-gray-200 dark:hover:bg-gray-700">
                                                             <TableCell className="px-5 py-4 sm:px-6 text-start">
                                                                 <div className="flex items-center gap-3">
@@ -176,11 +202,13 @@ export function Students() {
                                 </div>  
                             </div>
                     ) : (
-                        <p 
-                            className="text-center text-gray-800 text-theme-sm dark:text-gray-400" 
-                        >
-                            No hay estudiantes disponibles
-                        </p>
+                        <div className="flex justify-center items-center py-10 border border-gray-200 rounded-xl bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+                            <p 
+                                className="text-center text-gray-800 text-theme-sm dark:text-gray-400 py-8" 
+                            >
+                                No hay estudiantes disponibles{activity ? ` para la actividad seleccionada` : ''}
+                            </p>
+                        </div>
                     )
                 }   
                 {/* </ComponentCard> */}

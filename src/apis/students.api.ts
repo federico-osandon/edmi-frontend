@@ -1,6 +1,4 @@
-console.log(import.meta.env.VITE_API_BACKEND_URL)
-
-console.log(import.meta.env.VITE_API_BACKEND_URL)
+import { useAuthStore } from '../store/auth';
 
 interface Student {
     first_name?: string;
@@ -10,33 +8,74 @@ interface Student {
     role?: string;
     enrollment?: boolean;
     _id?: string;
+    activity?: string;
 }
 
-export const getStudentsApi = async ( activity: string | undefined) => {
+export const getStudentsApi = async (activity: string | undefined) => {
+    // Obtener el token del store de autenticación
+    const token = useAuthStore.getState().token;
+    console.log(token)
+    // Preparar los headers
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json'
+    };
     
-    const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users${activity ? `?activity=${activity}` : ''}`)
-    return response.json()
+    // Añadir el token solo si existe
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users${activity ? `?activity=${activity}` : ''}`, {
+        method: 'GET',
+        headers
+    });
+    
+    return response.json();
 }
 
 export const createStudentApi = async (student: Student) => {
+    // Obtener el token del store de autenticación
+    const token = useAuthStore.getState().token;
+    
+    // Preparar los headers
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json'
+    };
+    
+    // Añadir el token solo si existe
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers,
         body: JSON.stringify(student)
-    })
-    return response.json()
+    });
+    
+    return response.json();
 }
 
 
 export const updateStudentApi = async (student: Student) => {
+    // Obtener el token del store de autenticación
+    const token = useAuthStore.getState().token;
+    
+    // Preparar los headers
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json'
+    };
+    
+    // Añadir el token solo si existe
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users/${student._id}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers,
         body: JSON.stringify(student)
-    })
-    return response.json()
+    });
+    
+    return response.json();
 }

@@ -24,6 +24,7 @@ interface LoginData {
 interface AuthState {
     isAuthenticated: boolean;
     user: User | null;
+    token: string | null;
     isLoading: boolean;
     error: string | null;
     login: (credentials: LoginData) => Promise<void>;
@@ -34,24 +35,42 @@ interface AuthState {
 }
 
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
-const API_URL = "http://localhost:3001/api";
+const API_URL = "http://localhost:8080/api";
+
+// Configurar axios para usar el token en todas las peticiones
+axios.interceptors.request.use(
+    (config) => {
+        const state = useAuthStore.getState();
+        if (state.token) {
+            config.headers.Authorization = `Bearer ${state.token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
 
 export const useAuthStore = create<AuthState>()(persist(
     (set) => ({
         isAuthenticated: false,
         user: null,
+        token: null,
         isLoading: false,
         error: null,
         
         login: async (credentials: LoginData) => {
             try {
                 set({ isLoading: true });
-                const { data } = await axios.post(`${API_URL}/auth/login`, credentials, {
-                    withCredentials: true
-                });
+                const { data } = await axios.post(`${API_URL}/sessions/login`, credentials);
+                console.log(data)
+                // Extraer el token y la información del usuario
+                const token = data.payload.token || data.token;
+                const user = data.payload.user || data.payload;
+                
+                // Guardar el token y actualizar el estado
                 set({ 
                     isAuthenticated: true, 
-                    user: data.user,
+                    user,
+                    token,
                     isLoading: false,
                     error: null
                 });
@@ -67,15 +86,21 @@ export const useAuthStore = create<AuthState>()(persist(
         register: async (userData: RegisterData) => {
             try {
                 set({ isLoading: true });
-                await axios.post(`${API_URL}/auth/register`, userData);
+                await axios.post(`${API_URL}/sessions/register`, userData);
                 // Opcional: hacer login automático después del registro
-                const { data } = await axios.post(`${API_URL}/auth/login`, {
+                const { data } = await axios.post(`${API_URL}/sessions/login`, {
                     email: userData.email,
                     password: userData.password
-                }, { withCredentials: true });
+                });
+                
+                // Extraer el token y la información del usuario
+                const token = data.payload.token || data.token;
+                const user = data.payload.user || data.payload;
+                
                 set({ 
                     isAuthenticated: true, 
-                    user: data.user, 
+                    user, 
+                    token,
                     isLoading: false,
                     error: null
                 });
@@ -91,13 +116,19 @@ export const useAuthStore = create<AuthState>()(persist(
         logout: async () => {
             try {
                 set({ isLoading: true });
-                // Llamada al endpoint de logout en el backend
-                await axios.post(`${API_URL}/auth/logout`, {}, { 
-                    withCredentials: true 
-                });
+                // Llamada al endpoint de logout en el backend si es necesario
+                // Usando el token actual en los headers gracias al interceptor
+                try {
+                    await axios.post(`${API_URL}/sessions/logout`, {});
+                } catch (logoutError) {
+                    console.warn('Error en logout del servidor, continuando con logout local:', logoutError);
+                }
+                
+                // Siempre limpiar el estado local independientemente de la respuesta del servidor
                 set({ 
                     isAuthenticated: false, 
-                    user: null, 
+                    user: null,
+                    token: null,
                     isLoading: false 
                 });
             } catch (error) {
@@ -111,16 +142,27 @@ export const useAuthStore = create<AuthState>()(persist(
         
         checkAuthStatus: async () => {
             try {
+                // Verificar si tenemos un token almacenado
+                const state = useAuthStore.getState();
+                if (!state.token) {
+                    set({ 
+                        isAuthenticated: false, 
+                        user: null,
+                        isLoading: false
+                    });
+                    return;
+                }
+                
                 set({ isLoading: true });
                 // Verificar estado de autenticación con el backend
-                const response = await axios.get(`${API_URL}/auth/me`, { 
-                    withCredentials: true // Importante para enviar cookies
-                });
+                // El token se enviará automáticamente gracias al interceptor
+                const response = await axios.get(`${API_URL}/sessions/current`);
                 
-                if (response.data.user) {
+                if (response.data.user || response.data.payload) {
+                    const user = response.data.user || response.data.payload;
                     set({ 
                         isAuthenticated: true, 
-                        user: response.data.user,
+                        user,
                         isLoading: false,
                         error: null
                     });
@@ -128,6 +170,7 @@ export const useAuthStore = create<AuthState>()(persist(
                     set({ 
                         isAuthenticated: false, 
                         user: null,
+                        token: null,
                         isLoading: false
                     });
                 }

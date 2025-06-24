@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router";
 // Assume these icons are imported from an icon library
 
 import { useSidebar } from "../context/SidebarContext";
-import { NavItem, navItems, othersItems } from "./menusLinks";
+import { NavItem, navItems, othersItems, shouldShowNavItem, shouldShowSubItem } from "./menusLinks";
 import { ChevronDownIcon, HorizontaLDots } from "../icons";
 // import SidebarWidget from "./SidebarWidget";
 
@@ -78,7 +78,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (items: NavItem[], menuType: "main" | "others") => (
     <ul className="flex flex-col gap-4">
-      {items.map((nav, index) => (
+      {items.filter(shouldShowNavItem).map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
             <button
@@ -153,7 +153,7 @@ const AppSidebar: React.FC = () => {
               }}
             >
               <ul className="mt-2 space-y-1 ml-9">
-                {nav.subItems.map((subItem) => (
+                {nav.subItems.filter(shouldShowSubItem).map((subItem) => (
                   <li key={subItem.name}>
                     <Link
                       to={subItem.path}

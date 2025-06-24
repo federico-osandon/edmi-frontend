@@ -46,9 +46,21 @@ export default function App() {
                     {/* Rutas protegidas - Dashboard Layout */}
                     <Route element={<ProtectedRoute isAllowed={isAuthenticated} />}>
                         <Route element={<AppLayout />}>
-                            <Route index path="/" element={<Home />} />
-                            <Route path="/estudiantes" element={<Students />} />      
-                            <Route path="/crear-estudiante" element={<StudentCreate />} />      
+                            {/* Home accesible para cualquier rol */}
+                            <Route index path="/" element={
+                                <ProtectedRoute 
+                                    isAllowed={isAuthenticated} 
+                                    roles={['USER','STUDENT', 'ADMIN', 'SUPERADMIN']}
+                                >
+                                    <Home />
+                                </ProtectedRoute>
+                            } />
+                            
+                            {/* Rutas solo para admin y superadmin */}
+                            <Route element={<ProtectedRoute isAllowed={isAuthenticated} roles={['ADMIN', 'SUPERADMIN']} />}>
+                                <Route path="/estudiantes" element={<Students />} />      
+                                <Route path="/crear-estudiante" element={<StudentCreate />} />      
+                            </Route>
                         </Route>
                     </Route>
                     
