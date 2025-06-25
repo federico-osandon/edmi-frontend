@@ -1,9 +1,9 @@
 import { useAuthStore } from "../store/auth";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-    const isLoading = useAuthStore(state => state.isLoading);
+    // const isLoading = useAuthStore(state => state.isLoading);
     const navigate = useNavigate();
     
     // if (isLoading) return <LoadingSpinner />;
