@@ -20,13 +20,13 @@ export function Students() {
     const [students, setStudents] = useState<Student[]>([]);
     const [reRender, setReRender] = useState(false);
     const [activity, setActivity] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, _] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
 
     useEffect(() => {
         const fetchStudents = async (activity?: string) => {
-            setLoading(true);
+            // setLoading(true);
             setError(null);
             try {
                 const response = await getStudentsApi(activity);
@@ -43,21 +43,21 @@ export function Students() {
                 setStudents([]);
                 setError('Error al cargar los estudiantes');
             } finally {
-                setLoading(false);
+                // setLoading(false);
             }
         };
         fetchStudents(activity);
     }, [reRender, activity]);
     
 
-    const handleEnrollment = async ( {sid, enrollment}: {sid: string, enrollment: boolean}) => {
+    const handleEnrollment = async ( {sid, enrollment}: {sid: string, enrollment: boolean | undefined}) => {
         try {
             if(confirm(`¿Estas seguro que desea ${enrollment ? 'desactivar' : 'activar'} la matricula del alumno?`)) {
-                await updateStudentApi({
+                const result = await updateStudentApi({
                     _id: sid,
                     enrollment: !enrollment
                 })  
-                // console.log(result)
+                console.log(result)
                 setReRender(!reRender)
             }
         } catch (error) {
@@ -78,7 +78,7 @@ export function Students() {
             />
             <PageBreadcrumb prevTitle="Inicio" pageTitle="Estudiantes" />
             <div className="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
-                <div className="flex flex-col lg:flex-row justify-between items-center mb-5 w-full w-full">
+                <div className="flex flex-col lg:flex-row justify-between items-center mb-5 w-full">
                     <h3 className="mb-4 font-semibold text-gray-800 text-theme-xl dark:text-white/90 sm:text-2xl">
                         Listado de Estudiantes
                     </h3>
@@ -186,7 +186,10 @@ export function Students() {
                                                                 </Badge>
                                                             </TableCell>
                                                             <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                                                <button className="cursor-pointer" onClick={() => handleEnrollment({sid: student._id, enrollment: student.enrollment || false})}>
+                                                                <button 
+                                                                    className="cursor-pointer" 
+                                                                    onClick={() => handleEnrollment({sid: student._id, enrollment: student.enrollment})}
+                                                                >
                                                                     <Badge
                                                                         size="sm"
                                                                         color={student.enrollment ? "success" : "error"}

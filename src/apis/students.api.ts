@@ -14,7 +14,7 @@ interface Student {
 export const getStudentsApi = async (activity: string | undefined) => {
     // Obtener el token del store de autenticación
     const token = useAuthStore.getState().token;
-    console.log(token)
+    // console.log(token)
     // Preparar los headers
     const headers: Record<string, string> = {
         'Content-Type': 'application/json'
@@ -57,10 +57,10 @@ export const createStudentApi = async (student: Student) => {
 }
 
 
-export const updateStudentApi = async (student: Student) => {
+export const updateStudentApi = async (studentUpdate: Student) => {
     // Obtener el token del store de autenticación
     const token = useAuthStore.getState().token;
-    
+    console.log(studentUpdate)
     // Preparar los headers
     const headers: Record<string, string> = {
         'Content-Type': 'application/json'
@@ -71,10 +71,10 @@ export const updateStudentApi = async (student: Student) => {
         headers['Authorization'] = `Bearer ${token}`;
     }
     
-    const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users/${student._id}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users/${studentUpdate._id}`, {
         method: 'PUT',
         headers,
-        body: JSON.stringify(student)
+        body: JSON.stringify(studentUpdate)
     });
     
     return response.json();

@@ -35,8 +35,13 @@ interface AuthState {
     clearError: () => void;
 }
 
+<<<<<<< HEAD
 const API_URL = `${backendUrl}/api` 
 // const API_URL = "http://localhost:8080/api";
+=======
+// const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+const API_URL = `${backendUrl}/api`;
+>>>>>>> cdf05956d8435ab223d8392258f27aa070114620
 
 // Configurar axios para usar el token en todas las peticiones
 axios.interceptors.request.use(
