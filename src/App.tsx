@@ -55,11 +55,14 @@ export default function App() {
                                     <Home />
                                 </ProtectedRoute>
                             } />
-                            
+                        
                             {/* Rutas solo para admin y superadmin */}
-                            <Route element={<ProtectedRoute isAllowed={isAuthenticated} roles={['ADMIN', 'SUPERADMIN']} />}>
-                                <Route path="/estudiantes" element={<Students />} />      
+                            <Route element={<ProtectedRoute isAllowed={isAuthenticated} roles={[ 'SUPERADMIN']} />}>
                                 <Route path="/crear-estudiante" element={<StudentCreate />} />      
+                            </Route>
+                            <Route element={<ProtectedRoute isAllowed={isAuthenticated} roles={[ 'ADMIN', 'SUPERADMIN']} />}>
+                                <Route path="/estudiantes" element={<Students />} />  
+                                <Route path="/cursos" element={<h1>Cursos listado</h1>} />      
                             </Route>
                         </Route>
                     </Route>

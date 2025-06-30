@@ -63,6 +63,12 @@ export const navItems: NavItem[] = [
     // },
     {
       icon: <UserIcon />,
+      name: "Inicio",
+      path: "/",
+      allowedRoles: ['USER', 'STUDENT', 'ADMIN', 'SUPERADMIN'],
+    },
+    {
+      icon: <UserIcon />,
       name: "Estudiantes",
       path: "/estudiantes",
       allowedRoles: ['ADMIN', 'SUPERADMIN'],
@@ -71,13 +77,13 @@ export const navItems: NavItem[] = [
       icon: <UserIcon />,
       name: "Crear Estudiante",
       path: "/crear-estudiante",
-      allowedRoles: ['ADMIN', 'SUPERADMIN'],
+      allowedRoles: ['SUPERADMIN'],
     },
     {
       icon: <UserIcon />,
-      name: "Inicio",
-      path: "/",
-      allowedRoles: ['USER', 'STUDENT', 'ADMIN', 'SUPERADMIN'],
+      name: "Cursos",
+      path: "/cursos",
+      allowedRoles: ['ADMIN', 'SUPERADMIN'],
     },
     // {
     //   icon: <UserCircleIcon />,
