@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
+import { backendUrl } from "../apis";
 
 interface User {
     id: string;
@@ -34,8 +35,8 @@ interface AuthState {
     clearError: () => void;
 }
 
-// const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
-const API_URL = "http://localhost:8080/api";
+const API_URL = `${backendUrl}/api` 
+// const API_URL = "http://localhost:8080/api";
 
 // Configurar axios para usar el token en todas las peticiones
 axios.interceptors.request.use(
@@ -61,7 +62,7 @@ export const useAuthStore = create<AuthState>()(persist(
             try {
                 set({ isLoading: true });
                 const { data } = await axios.post(`${API_URL}/sessions/login`, credentials);
-                console.log(data)
+                // console.log(data)
                 // Extraer el token y la información del usuario
                 const token = data.payload.token || data.token;
                 const user = data.payload.user || data.payload;

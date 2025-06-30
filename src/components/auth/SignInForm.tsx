@@ -65,7 +65,7 @@ export default function SignInForm() {
                     />
                     {errors.email && (
                         <p className="text-red-500 text-xs mt-1">
-                            {errors.email.message}
+                            {String(errors.email.message)}
                         </p>
                     )}
                 </div>
@@ -82,7 +82,7 @@ export default function SignInForm() {
                     />
                     {errors.password && (
                         <p className="text-red-500 text-xs mt-1">
-                            {errors.password.message}
+                            {String(errors.password.message)}
                         </p>
                     )}
                     <span
