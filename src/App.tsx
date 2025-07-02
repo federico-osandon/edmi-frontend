@@ -3,10 +3,9 @@ import NotFound from "./pages/OtherPage/NotFound";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
-import { 
-  StudentCreate,
-  Students 
-} from "./pages";
+import { StudentCreate } from "./pages/Students/StudentCreate";
+import { Students } from "./pages/Students";
+import { CursesPages } from "./pages/CursesPages";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { StudentFormRegisterPage } from "./pages/Students/StudentFormRegister/StudentFormRegister";
@@ -62,7 +61,8 @@ export default function App() {
                             </Route>
                             <Route element={<ProtectedRoute isAllowed={isAuthenticated} roles={[ 'ADMIN', 'SUPERADMIN']} />}>
                                 <Route path="/estudiantes" element={<Students />} />  
-                                <Route path="/cursos" element={<h1>Cursos listado</h1>} />      
+                                <Route path="/cursos" element={<CursesPages />} />      
+                                <Route path="/curso-detalle/:id" element={<h1>Curso Detalle</h1>} />      
                             </Route>
                         </Route>
                     </Route>
