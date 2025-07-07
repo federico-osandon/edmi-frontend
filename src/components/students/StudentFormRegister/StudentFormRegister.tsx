@@ -37,7 +37,7 @@ export default function StudentFormRegister() {
     };
     
     return (
-        <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
+        <div className="flex flex-col flex-1 w-full overflow-y-auto  no-scrollbar">
             <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
                 {/* <Link
                 to="/"
