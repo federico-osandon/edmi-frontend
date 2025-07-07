@@ -38,6 +38,7 @@ export function CursesPages() {
                 const response = await getCursesApi(category)
                 // Verificar si la respuesta tiene la estructura esperada
                 if (response && response.data && Array.isArray(response.data)) {
+                    // console.log(response.data)
                     setCurses(response.data)
                 } else {
                     console.error('La respuesta de la API no tiene el formato esperado:', response)
@@ -137,7 +138,7 @@ export function CursesPages() {
                                     <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                                         {Array.isArray(curses) && curses.map((curse) => (
                                             <TableRow key={curse._id} className="hover:bg-gray-200 dark:hover:bg-gray-700">
-                                                <Link to={`/curso-detalle/${curse._id}`}>
+                                                <Link to={`/curso-detalle/${curse._id}?activity=${curse.category}`}>
                                                 <TableCell className="px-5 py-4 sm:px-6 text-start">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-10 h-10 overflow-hidden rounded-full bg-gray-100 flex items-center justify-center">

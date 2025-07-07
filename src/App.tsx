@@ -1,15 +1,25 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
-import NotFound from "./pages/OtherPage/NotFound";
+// import NotFound from "./pages/OtherPage/NotFound";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import Home from "./pages/Dashboard/Home";
-import { StudentCreate } from "./pages/Students/StudentCreate";
-import { Students } from "./pages/Students";
-import { CursesPages } from "./pages/CursesPages";
+// import Home from "./pages/Dashboard/Home";
+// import { StudentCreate } from "./pages/Students/StudentCreate";
+import { 
+    NotFound,
+    Home,
+    StudentCreate,
+    Students, 
+    CurseDetail, 
+    CursesPages,
+    SignIn,
+    StudentFormRegisterPage
+    // SignUp
+} from "./pages";
+
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { StudentFormRegisterPage } from "./pages/Students/StudentFormRegister/StudentFormRegister";
-import SignIn from "./pages/AuthPages/SignIn";
+// import { StudentFormRegisterPage } from "./pages/Students/StudentFormRegister/StudentFormRegister";
+
 import { ProtectedRoute } from "./components/ProtectedRoutes";
 import { useAuthStore } from "./store/auth";
 
@@ -62,7 +72,7 @@ export default function App() {
                             <Route element={<ProtectedRoute isAllowed={isAuthenticated} roles={[ 'ADMIN', 'SUPERADMIN']} />}>
                                 <Route path="/estudiantes" element={<Students />} />  
                                 <Route path="/cursos" element={<CursesPages />} />      
-                                <Route path="/curso-detalle/:id" element={<h1>Curso Detalle</h1>} />      
+                                <Route path="/curso-detalle/:cid" element={<CurseDetail />} />      
                             </Route>
                         </Route>
                     </Route>
