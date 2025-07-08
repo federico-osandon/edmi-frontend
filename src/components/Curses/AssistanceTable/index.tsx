@@ -4,7 +4,7 @@ import Badge from "../../ui/badge/Badge"
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../ui/table"
 import { updateStudentApi } from "../../../apis";
 
-const StudentList = ({students, setReRender, reRender}: {students: Student[], setReRender: (value: boolean) => void, reRender: boolean}) => {
+const AssistanceTable = ({students, setReRender, reRender, activity}: {students: Student[], setReRender: (value: boolean) => void, reRender: boolean, activity: string}) => {
 
      const handleEnrollment = async ( {sid, enrollment}: {sid: string, enrollment: boolean | undefined}) => {
         try {
@@ -21,7 +21,7 @@ const StudentList = ({students, setReRender, reRender}: {students: Student[], se
         }
     }
     // console.log(students)
-    // const filteredStudents = activity ?  students.filter(student => student.enrollment ===  true) : students;
+    const filteredStudents = activity ?  students.filter(student => student.enrollment ===  true) : students;
     return (
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="max-w-full overflow-x-auto">
@@ -35,36 +35,29 @@ const StudentList = ({students, setReRender, reRender}: {students: Student[], se
                                     >
                                         Nombre
                                     </TableCell>
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
-                                        Email
-                                    </TableCell>
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
-                                        Actividad
-                                    </TableCell>
-                                    <TableCell
-                                        isHeader
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
-                                        Estado
-                                    </TableCell>
+                                    
                                     <TableCell
                                         isHeader
                                         className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                                     >
                                         Matrícula
                                     </TableCell>
+                                    {/* Encabezados de clases */}
+                                    {[1,2,3,4,5,6].map((n) => (
+                                        <TableCell
+                                            key={`c${n}-header`}
+                                            isHeader
+                                            className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                        >
+                                            {`C${n}`}
+                                        </TableCell>
+                                    ))}
                                 </TableRow>
                             </TableHeader>
 
                             {/* Table Body */}
                             <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                                {Array.isArray(students) && students.map((student) => (
+                                {Array.isArray(students) && filteredStudents.map((student) => (
                                     <TableRow key={student._id} className="hover:bg-gray-200 dark:hover:bg-gray-700">
                                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                                             <div className="flex items-center gap-3">
@@ -83,20 +76,7 @@ const StudentList = ({students, setReRender, reRender}: {students: Student[], se
                                                 </div>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                            {student.email || 'No disponible'}
-                                        </TableCell>
-                                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                            {student.activity ==='PASTOR' ? 'Pastor' : 'Servidor'}
-                                        </TableCell>
-                                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                            <Badge
-                                                size="sm"
-                                                color={student.is_active ? "success" : "error"}
-                                            >
-                                                {student.is_active ? 'Activo' : 'Inactivo'}
-                                            </Badge>
-                                        </TableCell>
+                                        
                                         <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                                             <button 
                                                 className="cursor-pointer" 
@@ -110,6 +90,23 @@ const StudentList = ({students, setReRender, reRender}: {students: Student[], se
                                                 </Badge>
                                             </button>
                                         </TableCell>
+                                        {/* Casilleros de asistencia para 6 clases */}
+                                        {[1,2,3,4,5,6].map((n) => (
+                                            <TableCell key={`c${n}-${student._id}`} className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                                                <div className="flex gap-2 items-center">
+                                                    <label className="flex items-center gap-1 cursor-pointer">
+                                                        <input
+                                                            type="radio"
+                                                            name={`asistencia-c${n}-${student._id}`}
+                                                            checked={student[`c${n}` as keyof typeof student] === true}
+                                                            onChange={() => {/* Aquí irá la lógica para marcar asistencia */}}
+                                                        />
+                                                      
+                                                    </label>
+                                                   
+                                                </div>
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -119,4 +116,4 @@ const StudentList = ({students, setReRender, reRender}: {students: Student[], se
     )
 }
 
-export default StudentList
+export default AssistanceTable

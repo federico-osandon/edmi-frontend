@@ -8,4 +8,11 @@ export interface Student {
     enrollment?: boolean;
     activity?: string;
     is_beca?: boolean;
+    // Asistencias a 6 clases
+    c1?: boolean;
+    c2?: boolean;
+    c3?: boolean;
+    c4?: boolean;
+    c5?: boolean;
+    c6?: boolean;
 }

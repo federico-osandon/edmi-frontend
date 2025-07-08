@@ -7,6 +7,7 @@ import Button from "../../ui/button/Button";
 import { Modal } from "../../ui/modal";
 import { Student } from "../../../types";
 import { getStudentsApi } from "../../../apis";
+import AssistanceTable from "../AssistanceTable";
 
 
 export function CurseInfoCard({ activity }: { activity: string }) {
@@ -62,53 +63,8 @@ export function CurseInfoCard({ activity }: { activity: string }) {
             Listado de alumnos
           </h4>
 
-          {/* <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
-            <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                First Name
-              </p>
-              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Musharof
-              </p>
-            </div>
-
-            <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Last Name
-              </p>
-              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Chowdhury
-              </p>
-            </div>
-
-            <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Email address
-              </p>
-              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                randomuser@pimjo.com
-              </p>
-            </div>
-
-            <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Phone
-              </p>
-              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                +09 363 398 46
-              </p>
-            </div>
-
-            <div>
-              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                Bio
-              </p>
-              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Team Manager
-              </p>
-            </div>
-          </div> */}
-          <StudentList students={students} setReRender={setReRender} reRender={reRender} activity={activity} />
+        
+          <AssistanceTable students={students} setReRender={setReRender} reRender={reRender} activity={activity} />
         </div>
 
         {/* <button
