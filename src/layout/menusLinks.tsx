@@ -61,12 +61,12 @@ export const navItems: NavItem[] = [
     //   name: "Dashboard",
     //   subItems: [{ name: "Ecommerce", path: "/", pro: false }],
     // },
-    {
-      icon: <UserIcon />,
-      name: "Inicio",
-      path: "/",
-      allowedRoles: ['USER', 'STUDENT', 'ADMIN', 'SUPERADMIN'],
-    },
+    // {
+    //   icon: <UserIcon />,
+    //   name: "Inicio",
+    //   path: "/",
+    //   allowedRoles: ['USER', 'STUDENT', 'ADMIN', 'SUPERADMIN'],
+    // },
     {
       icon: <UserIcon />,
       name: "Estudiantes",
